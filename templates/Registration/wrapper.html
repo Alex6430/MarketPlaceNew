@@ -1,0 +1,117 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Заголовок страницы</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="/static/css/bootstrap.css" type="text/css">
+</head>
+<body style="background: plum">
+<nav class="navbar navbar-expand navbar-dark bg-dark rounded fixed-top">
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+            </li>
+            {#            <ul class="navbar-nav">#}
+            {#                    <button class="btn btn-outline-success">войти</button>#}
+            {#                    <a class="dropdown-item" data-toggle="modal" data-target="#helpModal">Помощь</a>#}
+            {#                    <button class="btn btn-primary" data-toggle="modal" data-target="#ticketModal">#}
+            {#                        Launch demo modal#}
+            {#                    </button>#}
+            {#                <a href="{% url 'ticket' %}" class="btn btn-outline-danger" role="button" aria-pressed="true">расписание и билеты</a>#}
+            {#                <a class="btn btn-outline-danger" aria-pressed="true" data-toggle="modal"#}
+            {#                   data-target="#ticketModal">расписание и билеты</a>#}
+            {#            </ul>#}
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            {% if user.username %}
+{#            <a href="{% url 'bin' id_user=user.id %}" class="btn btn-outline-danger" role="button" aria-pressed="true">Корзина</a>#}
+            {#                    <a href="#" class="btn btn-outline-danger" role="button" aria-pressed="true">войти</a>#}
+            {% endif %}
+{#            <input class="form-control mr-sm-2" type="text" placeholder="поиск фильма" aria-label="Search">#}
+{#            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">поиск</button>#}
+            <ul class="navbar-nav">
+                {% if user.username %}
+                    <a href="{% url 'logout' %}" class="btn btn-outline-danger" role="button" aria-pressed="true">Выйти
+                        ({{ user.username }})</a>
+                    {#                    <a href="#" class="btn btn-outline-danger" role="button" aria-pressed="true">войти</a>#}
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-outline-danger" role="button"
+                       aria-pressed="true">Войти</a>
+{#                    <a href="{% url 'admin' %}" class="btn btn-outline-danger" role="button"#}
+{#                       aria-pressed="true">Админ</a>#}
+                    {#                    <a href="#" class="btn btn-outline-danger" role="button" aria-pressed="true">выйти</a>#}
+                {% endif %}
+            </ul>
+        </form>
+    </div>
+</nav>
+
+{#<div class="modal fade" id="ticketModal" tabindex="-1" role="dialog"#}
+{#     aria-labelledby="exampleModalCenterTitle" aria-hidden="true">#}
+{#    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">#}
+{#        <div class="modal-content">#}
+{#            <div class="modal-header">#}
+{#                <h5 class="modal-title" id="exampleModalLongTitle">Фильмы</h5>#}
+{#                {% if user.username %}#}
+{#                        <a href="{% url 'logout' %}" class="btn btn-outline-danger" role="button" aria-pressed="true">Выйти#}
+{#                            ({{ user.username }})</a>#}
+{#                    <a href="#" class="btn btn-outline-danger" role="button" aria-pressed="true">войти</a>#}
+{#                {% else %}#}
+{#                    <a href="{% url 'login' %}" class="btn btn-outline-danger" role="button"#}
+{#                       aria-pressed="true">Войти</a>#}
+{#                        <a href="{% url 'admin' %}" class="btn btn-outline-danger" role="button" aria-pressed="true">Админ</a>#}
+{#                    <a href="#" class="btn btn-outline-danger" role="button" aria-pressed="true">выйти</a>#}
+{#                {% endif %}#}
+{#                <button type="button" class="close" data-dismiss="modal" aria-label="Close">#}
+{#                    <span aria-hidden="true">&times;</span>#}
+{#                </button>#}
+{#            </div>#}
+{#            <div class="modal-body">#}
+{##}
+{#            </div>#}
+{#            <div class="modal-footer">#}
+{#                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>#}
+{#                <button type="button" class="btn btn-primary">Save changes</button>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+{#{% block content %}#}
+{#{% endblock %}#}
+{% block auth %}
+{% endblock %}
+{% block cinema %}
+{% endblock %}
+{% block ticket %}
+{% endblock %}
+{% block seance %}
+{% endblock %}
+{% block bin %}
+{% endblock %}
+
+
+<footer class="footer">
+    <div class="container">
+        <span class="text-muted">
+            <p class="text-center">Taranov Alex</p>
+        </span>
+    </div>
+</footer>
+</body>
+{#{% block homepage %}#}
+{#{% endblock %}#}
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+</html>

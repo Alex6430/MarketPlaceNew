@@ -6,6 +6,7 @@ from django.shortcuts import render_to_response
 from Registration.forms import MyUserForm
 
 
+
 def admin(request):
     return render(request, 'admin')
 
@@ -23,7 +24,7 @@ def auth_login(request):
         if user is not None:
             auth.login(request, user)
             # return redirect("/")
-            return redirect('home')
+            return redirect("home")
         else:
             args['login_error'] = "пользователь не найден"
             return render_to_response("Registration/auth.html", args)
@@ -51,19 +52,3 @@ def reg(request):
         else:
             args['form1'] = newuser_form
     return render_to_response('Registration/registration.html', args)
-
-def account_view(request):
-    # если это суперпользователь
-    if request.user.is_superuser:
-        return redirect('admin')
-    # или если это пользователь с галочкой персонал, а так же принадлежащий группе manager
-    elif request.user.groups.filter(name='Manager').exists():
-        template = 'Registration/homePage.html'
-    # или если это пользователь принадлежащий группе manager
-    elif request.user.groups.filter(name='Courier').exists():
-        template = 'Registration/homePage.html'
-    # иначе все остальные (обычные пользователи)
-    else:
-        template = 'Registration/homePage.html'
-
-    return render(request, template)

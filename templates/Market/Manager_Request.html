@@ -7,17 +7,19 @@
         </div>
         <div class="jumbotron" style="background: gray">
             <div class="row">
-                {% for reques,date,address,status in args.dic %}
+                {% for reques,date,address,status,name,boolst in args.dic %}
                     <div class="col-md-4">
                         <div class="jumbotron text-center" style="background: red">
                             <h3>дата:{{ date }}</h3>
-                            <h3>аддресс:{{ address }}</h3>
-                            {% if status %}
-                                <a href="{% url 'delivery' id_request=reques %}" class="btn btn-warning text-center"
-                            >забрать заказ</a>
+                            <h3>адресс:{{ address }}</h3>
+                            {% if boolst %}
+                                <a href="{% url 'update_status' id_request=reques %}" class="btn btn-warning text-center"
+                            >{{ name }} (обновить статус)</a>
+
+                                <a href="{% url 'down_status' id_request=reques %}" class="btn btn-warning text-center"
+                            >отменить заказ</a>
                             {% else %}
-                                <a href="{% url 'delivery' id_request=reques %}" class="btn btn-warning text-center"
-                            >доставлен</a>
+                            <h3>заказ:{{ name }}</h3>
                             {% endif %}
                         </div>
                     </div>

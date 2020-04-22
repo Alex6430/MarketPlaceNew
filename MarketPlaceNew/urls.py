@@ -27,5 +27,6 @@ urlpatterns = [
     path('down_status/<id_request>', views.down_status, name='down_status'),
     path('manager_request/', views.manager_request, name='manager_request'),
     path('manager_product/', views.manager_product, name='manager_product'),
+    # path('update_product/', views.Product_Form, name='update_product'),
     path('', include('Registration.urls_main')),
 ]

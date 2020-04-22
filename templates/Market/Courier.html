@@ -13,7 +13,7 @@
                             <h3>дата:{{ date }}</h3>
                             <h3>аддресс:{{ address }}</h3>
                             {% if status %}
-                                <a href="{% url 'delivery' id_request=reques %}" class="btn btn-warning text-center"
+                                <a href="{% url 'take_delivery' id_request=reques %}" class="btn btn-warning text-center"
                             >забрать заказ</a>
                             {% else %}
                                 <a href="{% url 'delivery' id_request=reques %}" class="btn btn-warning text-center"

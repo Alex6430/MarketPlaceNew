@@ -1,6 +1,6 @@
 {% extends "Registration/wrapper.html" %}
 
-{% block courier %}
+{% block manager %}
     <main role="main">
         <div class="jumbotron" style="background: plum">
             <h1 style="size: auto">Заказы:</h1>
@@ -12,14 +12,14 @@
                         <div class="jumbotron text-center" style="background: red">
                             <h3>дата:{{ date }}</h3>
                             <h3>адресс:{{ address }}</h3>
+                            <h3>заказ:{{ name }}</h3>
                             {% if boolst %}
                                 <a href="{% url 'update_status' id_request=reques %}" class="btn btn-warning text-center"
-                            >{{ name }} (обновить статус)</a>
+                            >(обновить статус)</a>
 
                                 <a href="{% url 'down_status' id_request=reques %}" class="btn btn-warning text-center"
                             >отменить заказ</a>
-                            {% else %}
-                            <h3>заказ:{{ name }}</h3>
+
                             {% endif %}
                         </div>
                     </div>

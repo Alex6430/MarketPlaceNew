@@ -1,0 +1,106 @@
+{% extends "Registration/wrapper.html" %}
+
+{% block manager %}
+    <main role="main">
+        <div class="jumbotron" style="background: plum">
+            <h1 style="size: auto">Продукты:</h1>
+            <a href="{% url 'manager_product' %}" class="btn btn-warning text-center"
+            >добавить продукт</a>
+        </div>
+        <div class="jumbotron" style="background: gray">
+            <div class="row">
+                {% for product_id,category_name,product_name,product_quantity,product_price in args.dic %}
+                    <div class="col-md-4">
+                        <div class="jumbotron text-center" style="background: red">
+                            <h3>артикул:{{ product_id }}</h3>
+                            <h3>категория:{{ category_name }}</h3>
+                            <h3>название:{{ product_name }}</h3>
+                            <h3>количество:{{ product_quantity }} шт.</h3>
+                            <h3>цена:{{ product_price }} р.</h3>
+                            {#                            <a href="{% url 'manager_product' %}" class="btn btn-warning text-center"#}
+                            {#                            >изменить</a>#}
+                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    data-target="#myModal{{ product_id }}">
+                                изменить
+                            </button>
+
+                            <!-- The Modal -->
+                            <div class="modal fade" id="myModal{{ product_id }}">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+
+                                        <!-- Modal Header -->
+                                        <div class="modal-header">
+                                            <h4 class="modal-title"></h4>
+                                            <h3>{{ product_id }}</h3>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+
+                                        <!-- Modal body -->
+                                        <div class="modal-body">
+                                            <form class="form" action="{% url 'manager_product' %}" method="post">
+                                                {% csrf_token %}
+                                                <h1 class="h3 mb-3 font-weight-normal">{{ product_id }}</h1>
+                                                {% if product_form1.errors %}
+                                                    <label style="color: red">{{ product_form1.errors }}</label>
+                                                {% endif %}
+                                                <div class="form-group">
+                                                    <label for="name" class="cols-sm-2 control-label">артикул</label>
+                                                    <div class="cols-sm-10">
+                                                        {{ args.product_form1.id_product }}
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="email" class="cols-sm-2 control-label">категория</label>
+                                                    <div class="cols-sm-10">
+                                                        {{ args.product_form1.id_category }}
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="username" class="cols-sm-2 control-label">название</label>
+                                                    <div class="cols-sm-10">
+                                                        {{ args.product_form1.name_product }}
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="password" class="cols-sm-2 control-label">количество</label>
+                                                    <div class="cols-sm-10">
+                                                        {{ args.product_form1.quantity_product }}
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="confirm" class="cols-sm-2 control-label">цена</label>
+                                                    <div class="cols-sm-10">
+                                                        {{ args.product_form1.price_product }}
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group ">
+                                                    <button class="btn btn-lg btn-primary" type="submit">
+                                                        изменить
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                        <!-- Modal footer -->
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
+
+{% endblock %}

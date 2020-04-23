@@ -4,8 +4,10 @@
     <main role="main">
         <div class="jumbotron" style="background: plum">
             <h1 style="size: auto">Продукты:</h1>
-            <a href="{% url 'manager_product' %}" class="btn btn-warning text-center"
-            >добавить продукт</a>
+            <button type="button" class="btn btn-primary" data-toggle="modal"
+                    data-target="#CreateProductModal">
+                добавить продукт
+            </button>
         </div>
         <div class="jumbotron" style="background: gray">
             <div class="row">
@@ -32,48 +34,36 @@
                                         <!-- Modal Header -->
                                         <div class="modal-header">
                                             <h4 class="modal-title"></h4>
-                                            <h3>{{ product_id }}</h3>
+                                            <h3>изменение товара с артикулом: {{ product_id }}</h3>
                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                         </div>
 
                                         <!-- Modal body -->
                                         <div class="modal-body">
-                                            <form class="form" action="{% url 'manager_product' %}" method="post">
+                                            <form class="form"
+                                                  action="{% url 'manager_product' product_id=product_id %}"
+                                                  method="post">
                                                 {% csrf_token %}
-                                                <h1 class="h3 mb-3 font-weight-normal">{{ product_id }}</h1>
-                                                {% if product_form1.errors %}
-                                                    <label style="color: red">{{ product_form1.errors }}</label>
-                                                {% endif %}
-                                                <div class="form-group">
-                                                    <label for="name" class="cols-sm-2 control-label">артикул</label>
-                                                    <div class="cols-sm-10">
-                                                        {{ args.product_form1.id_product }}
-                                                    </div>
-                                                </div>
 
                                                 <div class="form-group">
-                                                    <label for="email" class="cols-sm-2 control-label">категория</label>
-                                                    <div class="cols-sm-10">
-                                                        {{ args.product_form1.id_category }}
-                                                    </div>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label for="username" class="cols-sm-2 control-label">название</label>
+                                                    <label for="username" class="cols-sm-2 control-label">название
+                                                        продукта</label>
                                                     <div class="cols-sm-10">
                                                         {{ args.product_form1.name_product }}
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label for="password" class="cols-sm-2 control-label">количество</label>
+                                                    <label for="password" class="cols-sm-2 control-label">количество
+                                                        продуктов на складе</label>
                                                     <div class="cols-sm-10">
                                                         {{ args.product_form1.quantity_product }}
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label for="confirm" class="cols-sm-2 control-label">цена</label>
+                                                    <label for="confirm" class="cols-sm-2 control-label">цена
+                                                        товара</label>
                                                     <div class="cols-sm-10">
                                                         {{ args.product_form1.price_product }}
                                                     </div>
@@ -102,5 +92,68 @@
             </div>
         </div>
     </main>
+
+    <div class="modal fade" id="CreateProductModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title"></h4>
+                    <h3>добавление товара</h3>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form class="form" action="{% url 'create_product' %}" method="post">
+                        {% csrf_token %}
+
+                        <div class="form-group">
+                            <label for="username" class="cols-sm-2 control-label">категория</label>
+                            <div class="cols-sm-10">
+                                {{ args.create_product_form1 }}
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="username" class="cols-sm-2 control-label">название продукта</label>
+                            <div class="cols-sm-10">
+                                {{ args.create_category_product_form1.name_category }}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password" class="cols-sm-2 control-label">количество продуктов на складе</label>
+                            <div class="cols-sm-10">
+                                {{ args.create_category_product_form1.quantity_product }}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="confirm" class="cols-sm-2 control-label">цена товара</label>
+                            <div class="cols-sm-10">
+                                {{ args.create_category_product_form1.price_product }}
+                            </div>
+                        </div>
+
+                        <div class="form-group ">
+                            <button class="btn btn-lg btn-primary" type="submit">
+                                добавить
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
 
 {% endblock %}

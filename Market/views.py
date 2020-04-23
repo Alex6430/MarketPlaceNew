@@ -1,3 +1,4 @@
+from django.http import HttpResponseNotFound
 from django.shortcuts import render
 from django.contrib import auth
 from django.template.context_processors import csrf
@@ -5,7 +6,7 @@ from django.shortcuts import render, redirect
 from django.shortcuts import render_to_response
 from Market.models import *
 from datetime import datetime
-from Market.market_forms import ProductForm
+from Market.market_forms import *
 from Registration.forms import MyUserForm
 from templates import *
 
@@ -140,7 +141,7 @@ def manager_request(request):
     print(args)
     return render(request, 'Market/Manager_Request.html', {'args': args})
 
-def manager_product(request):
+def manager_product(request,product_id):
     args = {}
     args['product_id'] = []
     args['category_name'] = []
@@ -150,14 +151,39 @@ def manager_product(request):
     args['dic'] = []
 
     args.update(csrf(request))
-    args['product_form1'] = ProductForm()
-    # if request.POST:
-    #     newproduct_form = ProductForm(request.POST)
-    #     if newproduct_form.is_valid():
-    #         newproduct_form.save()
-    #         return redirect("/")
-    #     else:
-    #         args['product_form1'] = newproduct_form
+    args['product_form1'] = UpdateProductForm()
+    args['create_product_form1'] = CreateProductForm()
+    try:
+        product = Product.objects.get(id_product=product_id)
+        if request.POST:
+            newproduct_form = UpdateProductForm(request.POST)
+            if newproduct_form.is_valid():
+                # product.id_category = newproduct_form.cleaned_data['id_category']
+                product.name_product = newproduct_form.cleaned_data['name_product']
+                product.quantity_product = newproduct_form.cleaned_data['quantity_product']
+                product.price_product = newproduct_form.cleaned_data['price_product']
+                product.save()
+                return redirect("manager_product" , product_id=product_id )
+            else:
+                args['product_form1'] = newproduct_form
+    except Product.DoesNotExist:
+        return HttpResponseNotFound("<h2>Product not found</h2>")
+
+    # try:
+    #     create_product = Product()
+    #     if request.POST:
+    #         newcreateproduct_form = CreateProductForm(request.POST)
+    #         if newcreateproduct_form.is_valid():
+    #             create_product.id_category = newcreateproduct_form.cleaned_data['id_category']
+    #             create_product.name_product = newcreateproduct_form.cleaned_data['name_product']
+    #             create_product.quantity_product = newcreateproduct_form.cleaned_data['quantity_product']
+    #             create_product.price_product = newcreateproduct_form.cleaned_data['price_product']
+    #             create_product.save()
+    #             return redirect("manager_product" , product_id=product_id )
+    #         else:
+    #             args['product_form1'] = newproduct_form
+    # except Product.DoesNotExist:
+    #     return HttpResponseNotFound("<h2>Product not found</h2>")
 
     my_product = Product.objects.all().values()
 
@@ -181,8 +207,8 @@ def manager_product(request):
 
 def user_page(request):
     args = {}
-    args.update(csrf(request))
-    args['form1'] = ProductForm()
+    # args.update(csrf(request))
+    # args['form1'] = ProductForm()
     # if request.POST:
     #     newuser_form = ProductForm(request.POST)
     #     if newuser_form.is_valid():
@@ -212,15 +238,71 @@ def take_delivery(request, id_request):
     Request.objects.filter(id_request=id_request).update(id_status = 4)
     return redirect("/home/")
 
-# def Product_Form(request):
+# def Product_Form(request, id_product):
 #     args = {}
 #     args.update(csrf(request))
 #     args['product_form1'] = ProductForm()
 #     if request.POST:
 #         newproduct_form = ProductForm(request.POST)
 #         if newproduct_form.is_valid():
-#             newproduct_form.save()
-#             return redirect("/")
+#             # newproduct_form.save()
+#             id_cat = newproduct_form.cleaned_data['id_category']
+#             nam = newproduct_form.cleaned_data['name_product']
+#             return redirect("manager_product")
 #         else:
 #             args['product_form1'] = newproduct_form
 #     return render(request, 'Market/Manager_Product.html', args)
+
+def create_product(request):
+    args = {}
+    args['product_id'] = []
+    args['category_name'] = []
+    args['product_name'] = []
+    args['product_quantity'] = []
+    args['product_price'] = []
+    args['dic'] = []
+
+    args.update(csrf(request))
+    args['create_product_form1'] = CreateProductForm()
+    # args['create_category_product_form1'] = UpdateProductForm()
+    try:
+        create_product = Product()
+        if request.POST:
+            newcreateproduct_form = CreateProductForm(request.POST)
+            # category_product_form = UpdateProductForm(request.POST)
+            if newcreateproduct_form.is_valid():
+                # category = category_product_form.cleaned_data['name_category']
+                # id_category = NameCategoryProduct.objects.filter(name_category=category).values('id_category')
+                # create_product.id_category = newcreateproduct_form.cleaned_data['id_category']
+                # create_product.name_product = newcreateproduct_form.cleaned_data['name_product']
+                # create_product.quantity_product = newcreateproduct_form.cleaned_data['quantity_product']
+                # create_product.price_product = newcreateproduct_form.cleaned_data['price_product']
+                create_product.save()
+                return redirect("manager_product" , product_id=1 )
+            else:
+                args['create_product_form1'] = newcreateproduct_form
+                # args['create_product_form1'] = newcreateproduct_form
+    except Product.DoesNotExist:
+        return HttpResponseNotFound("<h2>Product not found</h2>")
+
+    my_product = Product.objects.all().values()
+
+    for i in my_product:
+        args['product_id'].append(i.get('id_product'))
+        # args['category_id'].append(i.get('date_delivery'))
+        args['product_name'].append(i.get('name_product'))
+        args['product_quantity'].append(i.get('quantity_product'))
+        args['product_price'].append(i.get('price_product'))
+        category = i.get('id_category_id')
+        category_name = NameCategoryProduct.objects.all().filter(id_category=category).values('name_category')
+        for j in category_name:
+            args['category_name'].append(j.get('name_category'))
+
+    for i in range(0, len(my_product)):
+        args['dic'].append(
+            [args['product_id'][i], args['category_name'][i], args['product_name'][i], args['product_quantity'][i],
+             args['product_price'][i]])
+
+    # print(args['dic'])
+    print(args)
+    return render(request, 'Market/Manager_Product.html', {'args': args})

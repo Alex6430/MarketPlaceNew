@@ -1,29 +1,77 @@
-{% extends "Registration/wrapper.html" %}
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Курьер</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" href="/static/css/bootstrap.css" type="text/css">
+</head>
+<body style="background: plum">
+<nav class="navbar navbar-expand navbar-dark bg-dark rounded fixed-top">
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <ul class="navbar-nav">
+                {% if user.username %}
+                    <a href="{% url 'logout' %}" class="btn btn-outline-danger" role="button" aria-pressed="true">Выйти
+                        ({{ user.username }})</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-outline-danger" role="button"
+                       aria-pressed="true">Войти</a>
+                {% endif %}
+            </ul>
+        </form>
+    </div>
+</nav>
 
-{% block courier %}
-    <main role="main">
-        <div class="jumbotron" style="background: plum">
-            <h1 style="size: auto">Заказы:</h1>
-        </div>
-        <div class="jumbotron" style="background: gray">
-            <div class="row">
-                {% for reques,date,address,status in args.dic %}
-                    <div class="col-md-4">
-                        <div class="jumbotron text-center" style="background: red">
-                            <h3>дата:{{ date }}</h3>
-                            <h3>аддресс:{{ address }}</h3>
-                            {% if status %}
-                                <a href="{% url 'take_delivery' id_request=reques %}" class="btn btn-warning text-center"
+<main role="main">
+    <div class="jumbotron" style="background: plum">
+        <h1 style="size: auto">Заказы:</h1>
+    </div>
+    <div class="jumbotron" style="background: gray">
+        <div class="row">
+            {% for reques,date,address,status in args.dic %}
+                <div class="col-md-4">
+                    <div class="jumbotron text-center" style="background: red">
+                        <h3>дата:{{ date }}</h3>
+                        <h3>аддресс:{{ address }}</h3>
+                        {% if status %}
+                            <a href="{% url 'take_delivery' id_request=reques %}" class="btn btn-warning text-center"
                             >забрать заказ</a>
-                            {% else %}
-                                <a href="{% url 'delivery' id_request=reques %}" class="btn btn-warning text-center"
+                        {% else %}
+                            <a href="{% url 'delivery' id_request=reques %}" class="btn btn-warning text-center"
                             >доставлен</a>
-                            {% endif %}
-                        </div>
+                        {% endif %}
                     </div>
-                {% endfor %}
-            </div>
+                </div>
+            {% endfor %}
         </div>
-    </main>
+    </div>
+</main>
 
-{% endblock %}
+<footer class="footer">
+    <div class="container">
+        <span class="text-muted">
+            <p class="text-center">Taranov Alex</p>
+        </span>
+    </div>
+</footer>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+</html>

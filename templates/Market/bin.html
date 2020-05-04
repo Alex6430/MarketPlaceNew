@@ -1,0 +1,21 @@
+{% extends "mainApp/wrapper.html" %}
+
+{% block bin %}
+    <div class="jumbotron" style="background: gray">
+        <div class="row">
+            {% for film,date,time,row,seat,seance,seats in args.dic %}
+                <div class="col-md-4">
+                    <div class="jumbotron text-center" style="background: red">
+                        <h3>Фильм:{{ film }}</h3>
+                        <h3>Когда:{{ date }} {{ time }}</h3>
+{#                        <h3>{{ time }}</h3>#}
+                        <h3>Ряд:{{ row }} Место:{{ seat }}</h3>
+{#                        <h3>{{ seat }}</h3>#}
+                        <a href="{% url 'delite' id_seance=seance id_seats=seats id_user=user.id %}" class="btn btn-warning text-center"
+                               >удалить билет</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

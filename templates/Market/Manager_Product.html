@@ -1,4 +1,4 @@
-{% extends "Registration/wrapper.html" %}
+{% extends "Market/Manager_Wrapper.html" %}
 
 {% block manager %}
     <main role="main">
@@ -41,7 +41,7 @@
                                         <!-- Modal body -->
                                         <div class="modal-body">
                                             <form class="form"
-                                                  action="{% url 'manager_product' product_id=product_id %}"
+                                                  action="{% url 'update_product' product_id=product_id %}"
                                                   method="post">
                                                 {% csrf_token %}
 
@@ -112,7 +112,7 @@
                         <div class="form-group">
                             <label for="username" class="cols-sm-2 control-label">категория</label>
                             <div class="cols-sm-10">
-                                {{ args.create_product_form1 }}
+                                {{ args.create_category_product_form1.name_category }}
 
                             </div>
                         </div>
@@ -120,21 +120,21 @@
                         <div class="form-group">
                             <label for="username" class="cols-sm-2 control-label">название продукта</label>
                             <div class="cols-sm-10">
-                                {{ args.create_category_product_form1.name_category }}
+                                {{ args.create_product_form1.name_product }}
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="password" class="cols-sm-2 control-label">количество продуктов на складе</label>
                             <div class="cols-sm-10">
-                                {{ args.create_category_product_form1.quantity_product }}
+                                {{ args.create_product_form1.quantity_product }}
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="confirm" class="cols-sm-2 control-label">цена товара</label>
                             <div class="cols-sm-10">
-                                {{ args.create_category_product_form1.price_product }}
+                                {{ args.create_product_form1.price_product }}
                             </div>
                         </div>
 

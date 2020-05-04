@@ -9,6 +9,7 @@ from datetime import datetime
 from Market.market_forms import *
 from Registration.forms import MyUserForm
 from templates import *
+from Registration.views import index
 
 def admin(request):
     return render(request, 'admin')
@@ -31,7 +32,7 @@ def account_view(request):
         return user_page(request)
     # иначе все остальные (обычные пользователи)
     else:
-        return render(request, 'Registration/homePage.html')
+        return index(request)
 
     return render(request, 'Registration/homePage.html')
 
@@ -295,3 +296,106 @@ def bin(request, id_user):
     print(args['dic'])
 
     return render(request, 'cinema_theater/bin.html', {'args': args})
+
+def car_tire(request):
+    args = {}
+    args['product_id'] = []
+    args['product_name'] = []
+    args['product_quantity'] = []
+    args['product_price'] = []
+    args['dic'] = []
+
+    # id_categor = NameCategoryProduct.objects.all().filter(name_category='шины').values('id_category')
+    my_product = Product.objects.all().filter(id_category__name_category='шины').values()
+
+    for i in my_product:
+        args['product_id'].append(i.get('id_product'))
+        # args['category_id'].append(i.get('date_delivery'))
+        args['product_name'].append(i.get('name_product'))
+        args['product_quantity'].append(i.get('quantity_product'))
+        args['product_price'].append(i.get('price_product'))
+
+    for i in range(0, len(my_product)):
+        args['dic'].append(
+            [args['product_id'][i], args['product_name'][i], args['product_quantity'][i],
+             args['product_price'][i]])
+
+    return render(request, 'Market/Page_With_Product/tire.html', {'args': args})
+
+
+def car_oil(request):
+    args = {}
+    args['product_id'] = []
+    args['product_name'] = []
+    args['product_quantity'] = []
+    args['product_price'] = []
+    args['dic'] = []
+
+    # id_categor = NameCategoryProduct.objects.all().filter(name_category='шины').values('id_category')
+    my_product = Product.objects.all().filter(id_category__name_category='масла').values()
+
+    for i in my_product:
+        args['product_id'].append(i.get('id_product'))
+        # args['category_id'].append(i.get('date_delivery'))
+        args['product_name'].append(i.get('name_product'))
+        args['product_quantity'].append(i.get('quantity_product'))
+        args['product_price'].append(i.get('price_product'))
+
+    for i in range(0, len(my_product)):
+        args['dic'].append(
+            [args['product_id'][i], args['product_name'][i], args['product_quantity'][i],
+             args['product_price'][i]])
+
+    return render(request, 'Market/Page_With_Product/carOil.html', {'args': args})
+
+
+def car_disk(request):
+    args = {}
+    args['product_id'] = []
+    args['product_name'] = []
+    args['product_quantity'] = []
+    args['product_price'] = []
+    args['dic'] = []
+
+    # id_categor = NameCategoryProduct.objects.all().filter(name_category='шины').values('id_category')
+    my_product = Product.objects.all().filter(id_category__name_category='диски').values()
+
+    for i in my_product:
+        args['product_id'].append(i.get('id_product'))
+        # args['category_id'].append(i.get('date_delivery'))
+        args['product_name'].append(i.get('name_product'))
+        args['product_quantity'].append(i.get('quantity_product'))
+        args['product_price'].append(i.get('price_product'))
+
+    for i in range(0, len(my_product)):
+        args['dic'].append(
+            [args['product_id'][i], args['product_name'][i], args['product_quantity'][i],
+             args['product_price'][i]])
+
+    return render(request, 'Market/Page_With_Product/carDisk.html', {'args': args})
+
+def car_akkym(request):
+    args = {}
+    args['product_id'] = []
+    args['product_name'] = []
+    args['product_quantity'] = []
+    args['product_price'] = []
+    args['dic'] = []
+
+    # id_categor = NameCategoryProduct.objects.all().filter(name_category='шины').values('id_category')
+    my_product = Product.objects.all().filter(id_category__name_category='аккумуляторы').values()
+
+    for i in my_product:
+        args['product_id'].append(i.get('id_product'))
+        # args['category_id'].append(i.get('date_delivery'))
+        args['product_name'].append(i.get('name_product'))
+        args['product_quantity'].append(i.get('quantity_product'))
+        args['product_price'].append(i.get('price_product'))
+
+    for i in range(0, len(my_product)):
+        args['dic'].append(
+            [args['product_id'][i], args['product_name'][i], args['product_quantity'][i],
+             args['product_price'][i]])
+
+    return render(request, 'Market/Page_With_Product/carAkkym.html', {'args': args})
+

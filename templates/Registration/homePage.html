@@ -34,18 +34,12 @@
                 </a>
             </div>
             <div data-spy="scroll" data-target="#navbarsExampleDefault" data-offset="0">
-                {#            <h4 id="fat">@fat</h4>#}
-                {#            <p>...</p>#}
-                {#            <h4 id="mdo">@mdo</h4>#}
-                {#            <p>...</p>#}
-                {#            <h4 id="one">one</h4>#}
-                {#            <p>...</p>#}
-                <h1 id="two">Сопутствующие товары:</h1>
+                <h1 id="one">Сопутствующие товары:</h1>
                 <div class="row row-cols-1 row-cols-md-3">
                     <div class="col mb-4">
                         <div class="card">
                             <div class="card-body">
-                                <a href="#" class="btn btn-secondary" class="card-title">Шины</a>
+                                <a href="{% url 'car_tire' %}" class="btn btn-secondary" class="card-title">Шины</a>
                                 {#                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to#}
                                 {#                            additional content. This content is a little bit longer.</p>#}
                                 {#                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>#}
@@ -56,7 +50,7 @@
                     <div class="col-md-4">
                         <div class="card">
                             <div class="card-body">
-                                <a href="#" class="btn btn-secondary" class="card-title">Диски</a>
+                                <a href="{% url 'car_disk' %}" class="btn btn-secondary" class="card-title">Диски</a>
                                 {#                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to#}
                                 {#                            additional content. This content is a little bit longer.</p>#}
                                 {#                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>#}
@@ -67,7 +61,7 @@
                     <div class="col-md-4">
                         <div class="card">
                             <div class="card-body">
-                                <a href="#" class="btn btn-secondary" class="card-title">Масла</a>
+                                <a href="{% url 'car_oil' %}" class="btn btn-secondary" class="card-title">Масла</a>
                                 {#                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to#}
                                 {#                            additional content. This content is a little bit longer.</p>#}
                                 {#                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>#}
@@ -75,9 +69,20 @@
                             <img src="/media/media_files/carOil.png" class="card-img-top" alt="...">
                         </div>
                     </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <a href="{% url 'car_akkym' %}" class="btn btn-secondary" class="card-title">Аккумуляторы</a>
+                                {#                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to#}
+                                {#                            additional content. This content is a little bit longer.</p>#}
+                                {#                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>#}
+                            </div>
+                            <img src="/media/media_files/akkym.jpg" class="card-img-top" alt="...">
+                        </div>
+                    </div>
                 </div>
-                {#            <h4 id="three">three</h4>#}
-                {#            <p>...</p>#}
+                <h2 id="two">Остальные товары</h2>
+                <p>...</p>
             </div>
 
         </div>

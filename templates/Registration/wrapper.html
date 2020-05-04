@@ -21,10 +21,10 @@
                     <span class="navbar-toggler-icon"></span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#two">Главное</a>
+                    <a class="dropdown-item" href="{% url 'index' %}#one">Главные Товары</a>
+                    <a class="dropdown-item" href="{% url 'index' %}#two">Остальные Товары</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
+                    <a class="dropdown-item" href="{% url 'index' %}#three">О нас</a>
                 </div>
             </li>
             {#            <ul class="navbar-nav">#}
@@ -70,15 +70,26 @@
 {% endblock %}
 {% block bin %}
 {% endblock %}
+{% block carTire %}
+{% endblock %}
+{% block carOil %}
+{% endblock %}
+{% block carDisk %}
+{% endblock %}
+{% block carAkkym %}
+{% endblock %}
 
-
-<footer class="footer">
-    <div class="container">
+<div data-spy="scroll" data-target="#navbarsExampleDefault" data-offset="0">
+    <h1 id="three"></h1>
+    <footer class="footer">
+        <div class="container">
+            <h6>Контакты</h6>
         <span class="text-muted">
             <p class="text-center">Taranov Alex</p>
         </span>
-    </div>
-</footer>
+        </div>
+    </footer>
+</div>
 </body>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"

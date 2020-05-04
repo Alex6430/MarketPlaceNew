@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Курьер</title>
+    <title>Менеджер</title>
     {% load staticfiles %}
     <link rel="stylesheet" href="/static/css/bootstrap.css" type="text/css">
 </head>
-<body style="background: gray">
+<body style="background: darkgrey">
 <nav class="navbar navbar-expand navbar-dark bg-dark rounded fixed-top">
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
@@ -30,30 +30,8 @@
     </div>
 </nav>
 
-<main role="main">
-    <div class="jumbotron" style="background: gray">
-        <h1 style="size: auto">Заказы:</h1>
-    </div>
-    <div class="jumbotron" style="background: gray">
-        <div class="row">
-            {% for reques,date,address,status in args.dic %}
-                <div class="col-md-4">
-                    <div class="jumbotron text-center" style="background: red">
-                        <h3>дата:{{ date }}</h3>
-                        <h3>аддресс:{{ address }}</h3>
-                        {% if status %}
-                            <a href="{% url 'take_delivery' id_request=reques %}" class="btn btn-warning text-center"
-                            >забрать заказ</a>
-                        {% else %}
-                            <a href="{% url 'delivery' id_request=reques %}" class="btn btn-warning text-center"
-                            >доставлен</a>
-                        {% endif %}
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
-</main>
+{% block manager %}
+{% endblock %}
 
 <footer class="footer">
     <div class="container">

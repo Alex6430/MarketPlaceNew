@@ -618,6 +618,7 @@ pre code {
     min-height: 1px;
     padding-right: 15px;
     padding-left: 15px;
+    border: 1px solid black;
 }
 
 .col {
@@ -626,6 +627,7 @@ pre code {
     -ms-flex-positive: 1;
     flex-grow: 1;
     max-width: 100%;
+    border: 1px solid black;
 }
 
 .col-auto {

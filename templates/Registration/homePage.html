@@ -14,7 +14,7 @@
                         <img src="/media/media_files/sklad1.jpg" class="d-block w-100" alt="Автозапчасти">
                         <div class="carousel-caption d-none d-lg-block">
                             <h5>Автозапчасти</h5>
-                            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+{#                            <p></p>#}
                         </div>
                     </div>
                     {#                <div class="carousel-item">#}
@@ -36,53 +36,36 @@
             <div data-spy="scroll" data-target="#navbarsExampleDefault" data-offset="0">
                 <h1 id="one">Сопутствующие товары:</h1>
                 <div class="row row-cols-1 row-cols-md-3">
-                    <div class="col mb-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <a href="{% url 'car_tire' %}" class="btn btn-secondary" class="card-title">Шины</a>
-                                {#                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to#}
-                                {#                            additional content. This content is a little bit longer.</p>#}
-                                {#                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>#}
+                    {% for category_id,category_name in args.main_category %}
+                        <div class="col mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <a href="{% url 'car_page_with_product' category_id=category_id %}" class="btn btn-secondary" class="card-title">{{ category_name }}</a>
+                                    {#                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to#}
+                                    {#                            additional content. This content is a little bit longer.</p>#}
+                                    {#                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>#}
+                                </div>
+                                <img src="/media/media_files/{{ category_name }}.png" class="card-img-top" alt="...">
                             </div>
-                            <img src="/media/media_files/tire.png" class="card-img-top" alt="...">
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <a href="{% url 'car_disk' %}" class="btn btn-secondary" class="card-title">Диски</a>
-                                {#                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to#}
-                                {#                            additional content. This content is a little bit longer.</p>#}
-                                {#                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>#}
-                            </div>
-                            <img src="/media/media_files/carDisk.png" class="card-img-top" alt="...">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <a href="{% url 'car_oil' %}" class="btn btn-secondary" class="card-title">Масла</a>
-                                {#                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to#}
-                                {#                            additional content. This content is a little bit longer.</p>#}
-                                {#                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>#}
-                            </div>
-                            <img src="/media/media_files/carOil.png" class="card-img-top" alt="...">
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <a href="{% url 'car_akkym' %}" class="btn btn-secondary" class="card-title">Аккумуляторы</a>
-                                {#                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to#}
-                                {#                            additional content. This content is a little bit longer.</p>#}
-                                {#                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>#}
-                            </div>
-                            <img src="/media/media_files/akkym.jpg" class="card-img-top" alt="...">
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
-                <h2 id="two">Остальные товары</h2>
-                <p>...</p>
+                <h2 id="two">Остальные товары:</h2>
+                <div class="row row-cols-1 row-cols-md-3">
+                    {% for category_id,category_name in args.other_category %}
+                        <div class="col mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <a href="{% url 'car_page_with_product' category_id=category_id %}" class="btn btn-secondary" class="card-title">{{ category_name }}</a>
+                                    {#                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to#}
+                                    {#                            additional content. This content is a little bit longer.</p>#}
+                                    {#                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>#}
+                                </div>
+{#                                <img src="/media/media_files/{{ category_name }}.png" class="card-img-top" alt="...">#}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
 
         </div>

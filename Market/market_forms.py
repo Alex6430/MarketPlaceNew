@@ -44,3 +44,21 @@ class NameCategoryForm(ModelForm):
     #     super().__init__(*args, **kwargs)
     #     # self.fields['id_product'].label = 'артикул'
     #     self.fields['name_category'].label = 'категория'
+
+class DataInput(forms.DateInput):
+    input_type = 'date'
+
+class UpdateRequestForm(ModelForm):
+    class Meta:
+        model = Request
+        widgets = {'date_delivery' : DataInput()}
+        fields = ('date_delivery','address_delivery')
+        help_texts = {
+            'date_delivery': '2020-05-05',
+            'address_delivery': 'забрать из офиса',
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['date_delivery'].label = 'дата'
+        self.fields['address_delivery'].label = 'адрес'

@@ -1,20 +1,21 @@
 {% extends "Registration/wrapper.html" %}
 
-{% block carDisk %}
+{% block carPageWithProduct %}
     <main role="main">
         <div class="jumbotron" style="background: gray">
-        <h1>Диски:</h1>
+        {% for category in args.category_name %}
+            <h1>{{ category }}:</h1>
             <div class="row">
                 {% for product_id,product_name,product_quantity,product_price in args.dic %}
                     <div class="col-md-4">
                         <div class="card text-center" style="width: 15rem;">
-                            <img src="/media/media_files/carDisk.png" class="card-img-top" width="150" height="250" alt="...">
+                            <img src="/media/media_files/{{ category }}.png" class="card-img-top" width="150" height="250" alt="...">
                             <div class="card-body">
                                 <p class="card-center-text">{{ product_name }}</p>
                                 <p class="card-text"><small class="text-muted">осталось: {{ product_quantity }}</small>
                                 </p>
                                 {% if user.username %}
-                                    <a href="{% url 'car_tire' %}" class="btn btn-secondary">купить
+                                    <a href="{% url 'bay' product_id=product_id id_user=user.id %}" class="btn btn-secondary">купить
                                         за {{ product_price }}</a>
                                 {% else %}
                                     <button type="button" class="btn btn-primary" data-toggle="modal"
@@ -25,21 +26,6 @@
                                 {% endif %}
                             </div>
                         </div>
-                        {#                        </div>#}
-                        {#                        <div class="jumbotron text-center" style="background: red">#}
-                        {#                            <img src="/media/media_files/tire.png" class="card-img-top" alt="...">#}
-                        {#                            <h3>название:{{ product_name }}</h3>#}
-                        {#                            <h3>осталось:{{ product_quantity }} шт.</h3>#}
-                        {#                            {% if user.username %}#}
-                        {#                                <a href="{% url 'car_tire' %}" class="btn btn-secondary">купить#}
-                        {#                                    за {{ product_price }}</a>#}
-                        {#                            {% else %}#}
-                        {#                                <button type="button" class="btn btn-primary" data-toggle="modal"#}
-                        {#                                        data-target="#myModall">#}
-                        {#                                    войти в личный кабинет#}
-                        {#                                </button>#}
-                        {#                            {% endif %}#}
-
                         <!-- The Modal -->
                         <div class="modal fade" id="myModall">
                             <div class="modal-dialog modal-dialog-centered">
@@ -70,6 +56,7 @@
                     </div>
                 {% endfor %}
             </div>
+        {% endfor %}
         </div>
     </main>
 {% endblock %}

@@ -1,21 +1,90 @@
 {% extends "Registration/wrapper.html" %}
 
 {% block bin %}
-    <div class="jumbotron" style="background: gray">
-        <div class="row">
-            {% for film,date,time,row,seat,seance,seats in args.dic %}
-                <div class="col-md-4">
-                    <div class="jumbotron text-center" style="background: red">
-                        <h3>Фильм:{{ film }}</h3>
-                        <h3>Когда:{{ date }} {{ time }}</h3>
-{#                        <h3>{{ time }}</h3>#}
-                        <h3>Ряд:{{ row }} Место:{{ seat }}</h3>
-{#                        <h3>{{ seat }}</h3>#}
-                        <a href="{% url 'delite' id_seance=seance id_seats=seats id_user=user.id %}" class="btn btn-warning text-center"
-                               >удалить билет</a>
+    <main role="main">
+        <div class="jumbotron" style="background: gray">
+            <h1>Ваша корзина:</h1>
+            <h5>Вы выбрали выгодные предложения, оформите заказ пока они есть в наличии и не изменилась стоимость</h5>
+            <div class="container " style="background: white">
+                <div class="row">
+                    <div class="col-4 ; border border-dark">Товар</div>
+
+                    <div class="col-4 ; border border-dark">Количество, шт.</div>
+
+                    <div class="col-4 ; border border-dark">Стоимость</div>
+                    {% for product_name,product_quantity,product_price in args.dic %}
+                        <div class="w-100"></div>
+
+                        <div class="col-4 ; border border-dark" style="white-space: normal">
+                            {{ product_name }}
+                        </div>
+
+                        <div class="col-4 ; border border-dark">{{ product_quantity }} шт.</div>
+
+                        <div class="col-4 ; border border-dark">{{ product_price }} р.</div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% for price in args.request_price %}
+                <h3>Итого {{ price }} р.</h3>
+{#                <a href="#" class="btn btn-danger">Оформить заказ</a>#}
+                <button type="button" class="btn btn-danger" data-toggle="modal"
+                        data-target="#myModalAddress">
+                    Оформить заказ
+                </button>
+
+                <!-- The Modal -->
+                <div class="modal fade" id="myModalAddress">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title"></h4>
+                                <h3>Оформление доставки</h3>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                                {% for request in args.request_id %}
+                                    <form class="form" action="{% url 'update_request' id_request=request %}" method="post">
+                                        {% csrf_token %}
+
+                                        <div class="form-group">
+                                            <label for="date" class="cols-sm-2 control-label">дата</label>
+                                            <div class="cols-sm-10">
+{#                                                <input type="date">#}
+                                                {{ args.request_form1.date_delivery }}
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="password" class="cols-sm-2 control-label">адрес</label>
+                                            <div class="cols-sm-10">
+                                                {{ args.request_form1.address_delivery }}
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group ">
+                                            <button class="btn btn-lg btn-primary" type="submit">
+                                                оплатить
+                                            </button>
+                                        </div>
+                                    </form>
+                                {% endfor %}
+                            </div>
+
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                                </button>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             {% endfor %}
         </div>
-    </div>
+    </main>
 {% endblock %}

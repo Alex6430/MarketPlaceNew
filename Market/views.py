@@ -10,6 +10,7 @@ from Market.market_forms import *
 from Registration.forms import MyUserForm
 from templates import *
 from Registration.views import index
+from datetime import *
 
 def admin(request):
     return render(request, 'admin')
@@ -29,7 +30,7 @@ def account_view(request):
         return courier(request)
     elif request.user.username:
         # template = 'Market/Courier.html' AnonymousUser
-        return user_page(request)
+        return index(request)
     # иначе все остальные (обычные пользователи)
     else:
         return index(request)
@@ -265,137 +266,126 @@ def create_product(request):
 
     return manager_product(request)
 
+def bay(request, product_id, id_user):
+    print(product_id,id_user)
+    my_Request = Request.objects.all().filter(id_user=id_user,id_status=1).values()
+    price = Product.objects.get(id_product=product_id).price_product
+    if my_Request.exists():
+        print('not empty')
+        status = Request.objects.get(id_user=id_user,id_status=1).id_request
+        myProductRequest = ProductRequest.objects.all().filter(id_product_id=product_id, id_request_id=status).values()
+        if myProductRequest.exists():
+            qantity = ProductRequest.objects.get(id_product_id=product_id, id_request_id=status).quantity
+            new_product_request = ProductRequest(id_product_id=product_id, id_request_id=status, quantity=qantity+1)
+            new_product_request.save()
+            old_price = Request.objects.get(id_user=id_user,id_status=1).price_request
+            new_request = Request(id_request=status, id_user_id=id_user, id_status_id=1, price_request=old_price+price, date_delivery=datetime.now(),
+                                  address_delivery="ghd")
+            new_request.save()
+        else:
+            new_product_request = ProductRequest(id_product_id=product_id, id_request_id=status, quantity=1)
+            new_product_request.save()
+            old_price = Request.objects.get(id_user=id_user,id_status=1).price_request
+            new_request = Request(id_request=status, id_user_id=id_user, id_status_id=1, price_request=old_price + price,
+                                  date_delivery=datetime.now(),
+                                  address_delivery="ghd")
+            new_request.save()
+    else:
+        print("empty")
+        new_request = Request(id_user_id=id_user,id_status_id=1,price_request=price,date_delivery=datetime.now(),address_delivery="ghd")
+        new_request.save()
+        status = Request.objects.get(id_user=id_user,id_status=1).id_request
+        new_product_request = ProductRequest(id_product_id=product_id,id_request_id=status,quantity=1)
+        new_product_request.save()
+
+    return index(request)
+
+def car_page_with_product(request, category_id):
+    args = {}
+    args['product_id'] = []
+    args['product_name'] = []
+    args['product_quantity'] = []
+    args['product_price'] = []
+    args['category_name'] = []
+    args['dic'] = []
+
+    name_categ = NameCategoryProduct.objects.all().filter(id_category=category_id).values()
+    # id_categor = NameCategoryProduct.objects.all().filter(name_category='шины').values('id_category')
+    my_product = Product.objects.all().filter(id_category=category_id).values()
+
+    for i in name_categ:
+        args['category_name'].append(i.get('name_category'))
+
+    for i in my_product:
+        args['product_id'].append(i.get('id_product'))
+        # args['category_id'].append(i.get('date_delivery'))
+        args['product_name'].append(i.get('name_product'))
+        args['product_quantity'].append(i.get('quantity_product'))
+        args['product_price'].append(i.get('price_product'))
+
+    for i in range(0, len(my_product)):
+        args['dic'].append(
+            [args['product_id'][i], args['product_name'][i], args['product_quantity'][i],
+             args['product_price'][i]])
+
+    return render(request, 'Market/Page_With_Product/carPageWithProduct.html', {'args': args})
+
 def bin(request, id_user):
-    print(id_user)
     args = {}
-    args['film'] = []
-    args['row'] = []
-    args['seat'] = []
-    args['date_seance'] = []
-    args['time_seance'] = []
-    args['seance'] = []
-    args['seats'] = []
-    args['dic'] = []
-    id_seance = Ticket.objects.all().filter(username=id_user).values('id_seance', 'id_seats','id_ticket')
-
-    for i in id_seance:
-        args['film'].append(Film.objects.get(seance__id_seance=i.get('id_seance')).title)
-        args['date_seance'].append(Seance.objects.get(id_seance=i.get('id_seance')).field_date_field)
-        args['time_seance'].append(Seance.objects.get(id_seance=i.get('id_seance')).field_time_field)
-        args['row'].append(Seats.objects.get(id_seats=i.get('id_seats')).field_rows_field)
-        args['seat'].append(Seats.objects.get(id_seats=i.get('id_seats')).seats)
-        args['seance'].append(i.get('id_seance'))
-        args['seats'].append(i.get('id_seats'))
-
-    print(id_seance)
-
-    for i in range(0, len(args['film'])):
-        args['dic'].append([args['film'][i], args['date_seance'][i],  args['time_seance'][i],
-                    args['row'][i], args['seat'][i], args['seance'][i],args['seats'][i]])
-
-    print(args['dic'])
-
-    return render(request, 'cinema_theater/bin.html', {'args': args})
-
-def car_tire(request):
-    args = {}
-    args['product_id'] = []
+    args['request_id'] = []
     args['product_name'] = []
     args['product_quantity'] = []
     args['product_price'] = []
+    args['request_price'] = []
+    # args['category_name'] = []
     args['dic'] = []
 
-    # id_categor = NameCategoryProduct.objects.all().filter(name_category='шины').values('id_category')
-    my_product = Product.objects.all().filter(id_category__name_category='шины').values()
-
-    for i in my_product:
-        args['product_id'].append(i.get('id_product'))
-        # args['category_id'].append(i.get('date_delivery'))
-        args['product_name'].append(i.get('name_product'))
-        args['product_quantity'].append(i.get('quantity_product'))
-        args['product_price'].append(i.get('price_product'))
-
-    for i in range(0, len(my_product)):
-        args['dic'].append(
-            [args['product_id'][i], args['product_name'][i], args['product_quantity'][i],
-             args['product_price'][i]])
-
-    return render(request, 'Market/Page_With_Product/tire.html', {'args': args})
+    args.update(csrf(request))
+    args['request_form1'] = UpdateRequestForm()
 
 
-def car_oil(request):
-    args = {}
-    args['product_id'] = []
-    args['product_name'] = []
-    args['product_quantity'] = []
-    args['product_price'] = []
-    args['dic'] = []
-
-    # id_categor = NameCategoryProduct.objects.all().filter(name_category='шины').values('id_category')
-    my_product = Product.objects.all().filter(id_category__name_category='масла').values()
-
-    for i in my_product:
-        args['product_id'].append(i.get('id_product'))
-        # args['category_id'].append(i.get('date_delivery'))
-        args['product_name'].append(i.get('name_product'))
-        args['product_quantity'].append(i.get('quantity_product'))
-        args['product_price'].append(i.get('price_product'))
-
-    for i in range(0, len(my_product)):
-        args['dic'].append(
-            [args['product_id'][i], args['product_name'][i], args['product_quantity'][i],
-             args['product_price'][i]])
-
-    return render(request, 'Market/Page_With_Product/carOil.html', {'args': args})
+    my_Request = Request.objects.all().filter(id_user=id_user, id_status=1).values()
+    # request_id = Request.objects.get(id_user=id_user, id_status=1).id_request
+    # pr_req = ProductRequest.objects.all().filter(id_request=request_id).values()
 
 
-def car_disk(request):
-    args = {}
-    args['product_id'] = []
-    args['product_name'] = []
-    args['product_quantity'] = []
-    args['product_price'] = []
-    args['dic'] = []
 
-    # id_categor = NameCategoryProduct.objects.all().filter(name_category='шины').values('id_category')
-    my_product = Product.objects.all().filter(id_category__name_category='диски').values()
+    for i in my_Request:
+        args['request_id'].append(i.get('id_request'))
+        pr_req = ProductRequest.objects.all().filter(id_request=i.get('id_request')).values()
+        for j in pr_req:
+            pr_id = Product.objects.all().filter(id_product=j.get('id_product_id')).values()
+            for k in pr_id:
+                args['product_name'].append(k.get('name_product'))
+                args['product_price'].append(k.get('price_product'))
+            args['product_quantity'].append(j.get('quantity'))
+        args['request_price'].append(i.get('price_request'))
 
-    for i in my_product:
-        args['product_id'].append(i.get('id_product'))
-        # args['category_id'].append(i.get('date_delivery'))
-        args['product_name'].append(i.get('name_product'))
-        args['product_quantity'].append(i.get('quantity_product'))
-        args['product_price'].append(i.get('price_product'))
+    if my_Request.exists():
+        for i in range(0, len(pr_req)):
+            args['dic'].append(
+                [args['product_name'][i], args['product_quantity'][i],args['product_quantity'][i]*args['product_price'][i]])
 
-    for i in range(0, len(my_product)):
-        args['dic'].append(
-            [args['product_id'][i], args['product_name'][i], args['product_quantity'][i],
-             args['product_price'][i]])
+    return render(request, 'Market/bin.html', {'args': args})
 
-    return render(request, 'Market/Page_With_Product/carDisk.html', {'args': args})
+def update_request(request,id_request):
+    request_id=id_request
+    try:
+        newrequest = Request.objects.get(id_request=request_id)
+        if request.POST:
+            newrequest_form = UpdateRequestForm(request.POST)
+            if newrequest_form.is_valid():
+                # product.id_category = newproduct_form.cleaned_data['id_category']
+                newrequest.address_delivery = newrequest_form.cleaned_data['address_delivery']
+                newrequest.date_delivery = newrequest_form.cleaned_data['date_delivery']
+                newrequest.id_status_id = 2
+                newrequest.save()
+                return redirect("index")
+            # else:
+                # args['product_form1'] = newproduct_form
+    except Product.DoesNotExist:
+        return HttpResponseNotFound("<h2>Product not found</h2>")
 
-def car_akkym(request):
-    args = {}
-    args['product_id'] = []
-    args['product_name'] = []
-    args['product_quantity'] = []
-    args['product_price'] = []
-    args['dic'] = []
+    return index(request)
 
-    # id_categor = NameCategoryProduct.objects.all().filter(name_category='шины').values('id_category')
-    my_product = Product.objects.all().filter(id_category__name_category='аккумуляторы').values()
-
-    for i in my_product:
-        args['product_id'].append(i.get('id_product'))
-        # args['category_id'].append(i.get('date_delivery'))
-        args['product_name'].append(i.get('name_product'))
-        args['product_quantity'].append(i.get('quantity_product'))
-        args['product_price'].append(i.get('price_product'))
-
-    for i in range(0, len(my_product)):
-        args['dic'].append(
-            [args['product_id'][i], args['product_name'][i], args['product_quantity'][i],
-             args['product_price'][i]])
-
-    return render(request, 'Market/Page_With_Product/carAkkym.html', {'args': args})
 

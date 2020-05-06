@@ -28,6 +28,7 @@ urlpatterns = [
                   path('update_status/<id_request>', views.update_status, name='update_status'),
                   path('update_request/<id_request>', views.update_request, name='update_request'),
                   path('down_status/<id_request>', views.down_status, name='down_status'),
+                  path('down_status_user/<id_request>', views.down_status_user, name='down_status_user'),
                   path('manager_request/', views.manager_request, name='manager_request'),
                   path('manager_product/update_product/<product_id>', views.update_product, name='update_product'),
                   path('manager_product/create_product/', views.create_product, name='create_product'),
@@ -35,6 +36,7 @@ urlpatterns = [
                   path('page/', views.user_page, name='user_page'),
                   path('bay/<product_id>/<id_user>', views.bay, name='bay'),
                   path('bin/<id_user>', views.bin, name='bin'),
+                  path('user/<id_user>', views.user_request, name='user_request'),
                   path('home/product/<category_id>', views.car_page_with_product, name='car_page_with_product'),
                   path('', include('Registration.urls_main')),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

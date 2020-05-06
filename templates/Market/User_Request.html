@@ -1,0 +1,29 @@
+{% extends "Registration/wrapper.html" %}
+
+{% block user_request %}
+    <main role="main">
+        <div class="jumbotron" style="background: gray">
+            <h1 style="size: auto">Ваши заказы:</h1>
+        </div>
+        <div class="jumbotron" style="background: gray">
+            <div class="row">
+                {% for reques,date,address,status,name,boolst in args.dic %}
+                    <div class="col-md-4">
+                        <div class="jumbotron text-center" style="background: white">
+                            <h3>дата доставки:{{ date }}</h3>
+                            <h3>адресс доставки:{{ address }}</h3>
+                            <h3>заказ:{{ name }}</h3>
+                            {% if boolst %}
+
+                                <a href="{% url 'down_status_user' id_request=reques %}" class="btn btn-warning text-center"
+                            >отменить заказ</a>
+
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
+
+{% endblock %}

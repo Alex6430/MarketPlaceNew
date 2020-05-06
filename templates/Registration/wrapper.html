@@ -40,8 +40,11 @@
         </ul>
         <form class="form-inline my-2 my-lg-0">
             {% if user.username %}
+                <a href="{% url 'user_request' id_user=user.id %}" class="btn btn-outline-danger" role="button"
+                   aria-pressed="true">Личный кабинет</a>
                 <a href="{% url 'bin' id_user=user.id %}" class="btn btn-outline-danger" role="button"
                    aria-pressed="true">Корзина</a>
+
                 {#                    <a href="#" class="btn btn-outline-danger" role="button" aria-pressed="true">войти</a>#}
             {% endif %}
             {#            <input class="form-control mr-sm-2" type="text" placeholder="поиск фильма" aria-label="Search">#}
@@ -72,6 +75,8 @@
 {% block bin %}
 {% endblock %}
 {% block carPageWithProduct %}
+{% endblock %}
+{% block user_request %}
 {% endblock %}
 
 
